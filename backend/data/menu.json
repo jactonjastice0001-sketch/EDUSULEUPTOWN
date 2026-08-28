@@ -1,0 +1,15 @@
+[
+  { "id": "m1", "name": "Chapati Beef Stew", "category": "Mains", "price": 220, "description": "Two soft chapatis, slow-cooked beef stew, extra gravy.", "available": true, "image": null },
+  { "id": "m2", "name": "Pilau Beef", "category": "Mains", "price": 200, "description": "Spiced rice pilau with tender beef, side of kachumbari.", "available": true, "image": null },
+  { "id": "m3", "name": "Ugali Sukuma na Fish", "category": "Mains", "price": 250, "description": "Ugali, sukuma wiki, fried tilapia fillet.", "available": true, "image": null },
+  { "id": "m4", "name": "Chicken Biryani", "category": "Mains", "price": 300, "description": "Layered biryani rice, spiced chicken thigh, boiled egg.", "available": true, "image": null },
+  { "id": "m5", "name": "Githeri Special", "category": "Mains", "price": 150, "description": "Maize and beans, sautéed with onion, tomato, avocado on the side.", "available": true, "image": null },
+  { "id": "m6", "name": "Beef Smokie Wrap", "category": "Fast Bites", "price": 120, "description": "Grilled smokie, cabbage slaw, chili mayo, wrapped in chapati.", "available": true, "image": null },
+  { "id": "m7", "name": "Chips Masala", "category": "Fast Bites", "price": 150, "description": "Deep-fried chips tossed in a masala-tomato sauce.", "available": true, "image": null },
+  { "id": "m8", "name": "Samosa (3pc)", "category": "Fast Bites", "price": 90, "description": "Three beef samosas, served with chili sauce.", "available": true, "image": null },
+  { "id": "m9", "name": "Mandazi (4pc)", "category": "Snacks", "price": 80, "description": "Fresh coconut mandazi, lightly sweetened.", "available": true, "image": null },
+  { "id": "m10", "name": "Avocado & Egg Sandwich", "category": "Snacks", "price": 130, "description": "Toasted sandwich, mashed avocado, boiled egg, black pepper.", "available": true, "image": null },
+  { "id": "m11", "name": "Chai ya Rangi", "category": "Drinks", "price": 40, "description": "Strong Kenyan black tea with ginger and cardamom.", "available": true, "image": null },
+  { "id": "m12", "name": "Fresh Passion Juice", "category": "Drinks", "price": 100, "description": "Chilled, no added sugar.", "available": true, "image": null },
+  { "id": "m13", "name": "Mango Smoothie", "category": "Drinks", "price": 150, "description": "Blended ripe mango, yoghurt, honey.", "available": true, "image": null }
+]

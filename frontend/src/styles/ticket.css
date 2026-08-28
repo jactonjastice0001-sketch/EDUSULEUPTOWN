@@ -1,0 +1,144 @@
+/* ── The signature element: cart & checkout render as a literal order chit ── */
+
+.ticket {
+  position: relative;
+  background: var(--paper);
+  color: var(--text-on-paper);
+  font-family: var(--font-mono);
+  padding: var(--space-6) var(--space-5) var(--space-5);
+  clip-path: polygon(
+    0% 12px, 3% 0%, 6% 12px, 9% 0%, 12% 12px, 15% 0%, 18% 12px, 21% 0%, 24% 12px, 27% 0%,
+    30% 12px, 33% 0%, 36% 12px, 39% 0%, 42% 12px, 45% 0%, 48% 12px, 51% 0%, 54% 12px, 57% 0%,
+    60% 12px, 63% 0%, 66% 12px, 69% 0%, 72% 12px, 75% 0%, 78% 12px, 81% 0%, 84% 12px, 87% 0%,
+    90% 12px, 93% 0%, 96% 12px, 99% 0%, 100% 12px,
+    100% calc(100% - 12px), 97% 100%, 94% calc(100% - 12px), 91% 100%, 88% calc(100% - 12px),
+    85% 100%, 82% calc(100% - 12px), 79% 100%, 76% calc(100% - 12px), 73% 100%,
+    70% calc(100% - 12px), 67% 100%, 64% calc(100% - 12px), 61% 100%, 58% calc(100% - 12px),
+    55% 100%, 52% calc(100% - 12px), 49% 100%, 46% calc(100% - 12px), 43% 100%,
+    40% calc(100% - 12px), 37% 100%, 34% calc(100% - 12px), 31% 100%, 28% calc(100% - 12px),
+    25% 100%, 22% calc(100% - 12px), 19% 100%, 16% calc(100% - 12px), 13% 100%,
+    10% calc(100% - 12px), 7% 100%, 4% calc(100% - 12px), 1% 100%, 0% calc(100% - 12px)
+  );
+  box-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.55), 0 2px 0 var(--paper-shadow) inset;
+}
+
+.ticket__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px dashed var(--text-on-paper-low);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.ticket__brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--text-on-paper);
+}
+
+.ticket__brand span { color: var(--matatu-green-deep); }
+
+.ticket__number {
+  font-size: 0.75rem;
+  color: var(--text-on-paper-low);
+  letter-spacing: 0.04em;
+}
+
+.ticket__meta {
+  font-size: 0.72rem;
+  color: var(--text-on-paper-low);
+  margin-bottom: var(--space-4);
+  display: flex;
+  justify-content: space-between;
+}
+
+.ticket__line {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: var(--space-3);
+  font-size: 0.85rem;
+  padding: var(--space-2) 0;
+  align-items: center;
+}
+
+.ticket__line-qty { color: var(--text-on-paper-low); }
+.ticket__line-price { text-align: right; font-weight: 500; }
+
+.ticket__tear {
+  border: none;
+  border-top: 1px dashed var(--text-on-paper-low);
+  margin: var(--space-4) 0;
+  position: relative;
+}
+
+.ticket__tear::before,
+.ticket__tear::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+.ticket__tear::before { left: -30px; }
+.ticket__tear::after { right: -30px; }
+
+.ticket__total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  padding-top: var(--space-2);
+}
+
+.ticket__total-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-on-paper-low);
+  font-weight: 400;
+}
+
+.ticket__barcode {
+  margin-top: var(--space-5);
+  height: 34px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--text-on-paper) 0px, var(--text-on-paper) 2px,
+    transparent 2px, transparent 4px,
+    var(--text-on-paper) 4px, var(--text-on-paper) 5px,
+    transparent 5px, transparent 8px,
+    var(--text-on-paper) 8px, var(--text-on-paper) 11px,
+    transparent 11px, transparent 13px
+  );
+  opacity: 0.85;
+}
+
+.ticket__stamp {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  padding: 4px 10px;
+  border: 2px solid var(--chili);
+  color: var(--chili);
+  border-radius: 3px;
+  transform: rotate(6deg);
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .ticket { padding: var(--space-5) var(--space-4) var(--space-4); }
+  .ticket__tear::before { left: -22px; }
+  .ticket__tear::after { right: -22px; }
+}

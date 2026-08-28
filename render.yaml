@@ -1,0 +1,73 @@
+services:
+  - type: web
+    name: uptown-backend
+    runtime: node
+    plan: starter # cheapest plan that supports a persistent disk; free tier wipes storage on redeploy
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    healthCheckPath: /api/health
+    disk:
+      name: uptown-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: DATA_DIR
+        value: /data/db
+      - key: UPLOADS_ROOT
+        value: /data/uploads
+      # Fill these in yourself in the Render dashboard after the blueprint deploys —
+      # secrets shouldn't live in this file, which is meant to be committed to git.
+      - key: JWT_SECRET
+        sync: false
+      - key: ID_ENCRYPTION_KEY
+        sync: false
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: ADMIN_FULL_NAME
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PHONE
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_CALL_NUMBER
+        sync: false
+      - key: DARAJA_ENV
+        sync: false
+      - key: DARAJA_CONSUMER_KEY
+        sync: false
+      - key: DARAJA_CONSUMER_SECRET
+        sync: false
+      - key: DARAJA_SHORTCODE
+        sync: false
+      - key: DARAJA_PASSKEY
+        sync: false
+      - key: DARAJA_CALLBACK_URL
+        sync: false
+      - key: WHATSAPP_VENDOR_NUMBER
+        sync: false
+      - key: WHATSAPP_CLOUD_API_TOKEN
+        sync: false
+      - key: WHATSAPP_CLOUD_PHONE_NUMBER_ID
+        sync: false
+
+  - type: web
+    name: uptown-frontend
+    runtime: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      # Set this to the backend service's public URL once you know it
+      # (Render assigns it after the first deploy) — e.g.
+      # https://uptown-backend.onrender.com
+      - key: VITE_API_BASE_URL
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

@@ -2,23 +2,16 @@ services:
   - type: web
     name: uptown-backend
     runtime: node
-    plan: starter # cheapest plan that supports a persistent disk; free tier wipes storage on redeploy
+    plan: free # demo/investor-pitch mode — no card required, but data resets on every restart/redeploy.
+               # Switch back to "starter" + a disk block once you need real persistence.
     buildCommand: cd backend && npm install
     startCommand: cd backend && npm start
     healthCheckPath: /api/health
-    disk:
-      name: uptown-data
-      mountPath: /data
-      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 5000
-      - key: DATA_DIR
-        value: /data/db
-      - key: UPLOADS_ROOT
-        value: /data/uploads
       # Fill these in yourself in the Render dashboard after the blueprint deploys —
       # secrets shouldn't live in this file, which is meant to be committed to git.
       - key: JWT_SECRET

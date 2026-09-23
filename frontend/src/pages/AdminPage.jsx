@@ -124,6 +124,133 @@ function AdminRow({ item, onChange }) {
   );
 }
 
+  function update(field, value) {
+    setForm((f) => ({ ...f, [field]: value }));
+  }
+
+  function startEdit(item) {
+    setEditingId(item.id);
+    setForm({
+      name: item.name,
+      description: item.description || "",
+      price_kes: item.price_kes,
+      category: item.category,
+      image_url: item.image_url || "",
+      available: item.available
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setForm(emptyForm);
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    setSaving(true);
+    try {
+      const payload = { ...form, price_kes: parseInt(form.price_kes, 10) };
+      if (editingId) {
+        await api.updateMenuItem(editingId, payload);
+        setSuccess("Menu item updated.");
+      } else {
+        await api.createMenuItem(payload);
+        setSuccess("Menu item added.");
+      }
+      cancelEdit();
+      load();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleDelete(id) {
+    if (!confirm("Remove this item from the menu?")) return;
+    try {
+      await api.deleteMenuItem(id);
+      load();
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  return (
+    <div className="page">
+      <h1 style={{ marginTop: "2.5rem" }}>Manage menu</h1>
+
+      <div className="two-col">
+        <form className="form-card" style={{ margin: 0 }} onSubmit={handleSubmit}>
+          <h2 style={{ fontSize: "1.1rem" }}>{editingId ? "Edit item" : "Add a new item"}</h2>
+          {error && <div className="form-error">{error}</div>}
+          {success && <div className="form-success">{success}</div>}
+
+          <div className="field">
+            <label htmlFor="name">Name</label>
+            <input id="name" value={form.name} onChange={(e) => update("name", e.target.value)} required />
+          </div>
+          <div className="field">
+            <label htmlFor="description">Description</label>
+            <textarea id="description" rows={2} value={form.description} onChange={(e) => update("description", e.target.value)} />
+          </div>
+          <div className="field">
+            <label htmlFor="price_kes">Price (KES)</label>
+            <input id="price_kes" type="number" min="1" value={form.price_kes} onChange={(e) => update("price_kes", e.target.value)} required />
+          </div>
+          <div className="field">
+            <label htmlFor="category">Category</label>
+            <input id="category" value={form.category} onChange={(e) => update("category", e.target.value)} placeholder="Mains, Snacks, Drinks…" required />
+          </div>
+          <div className="field">
+            <label htmlFor="image_url">Image URL (optional)</label>
+            <input id="image_url" value={form.image_url} onChange={(e) => update("image_url", e.target.value)} placeholder="https://…" />
+          </div>
+          <div className="field" style={{ flexDirection: "row", alignItems: "center", gap: "0.6rem" }}>
+            <input
+              id="available"
+              type="checkbox"
+              style={{ width: "auto" }}
+              checked={form.available}
+              onChange={(e) => update("available", e.target.checked)}
+            />
+            <label htmlFor="available" style={{ margin: 0 }}>Visible on menu</label>
+          </div>
+
+          <div style={{ display: "flex", gap: "0.6rem", marginTop: "1rem" }}>
+            <button className="btn btn-primary" disabled={saving}>
+              {saving ? "Saving…" : editingId ? "Save changes" : "Add item"}
+            </button>
+            {editingId && (
+              <button type="button" className="btn btn-outline" onClick={cancelEdit}>
+                Cancel
+              </button>
+            )}
+          </div>
+        </form>
+
+        <div>
+          {loading && <p className="muted">Loading…</p>}
+          {items.map((item) => (
+            <div className="cart-line" key={item.id}>
+              <div>
+                <div className="cart-line-name">
+                  {item.name} {!item.available && <span className="badge failed" style={{ marginLeft: "0.4rem" }}>hidden</span>}
+                </div>
+                <div className="cart-line-meta">{item.category} · KES {item.price_kes}</div>
+              </div>
+              <button className="btn btn-outline btn-sm" onClick={() => startEdit(item)}>Edit</button>
+              <button className="btn btn-outline btn-sm" onClick={() => handleDelete(item.id)}>Remove</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
 function NewItemForm({ onCreated }) {
   const [name, setName] = useState('');
   const [category, setCategory] = useState('Mains');

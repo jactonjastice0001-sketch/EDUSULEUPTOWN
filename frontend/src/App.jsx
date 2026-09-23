@@ -1,73 +1,80 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import NavBar from './components/NavBar';
-import MenuPage from './pages/MenuPage';
-import CartPage from './pages/CartPage';
-import CheckoutPage from './pages/CheckoutPage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import ProfilePage from './pages/ProfilePage';
-import OrderHistoryPage from './pages/OrderHistoryPage';
-import AdminPage from './pages/AdminPage';
-import { useAuth } from './context/AuthContext';
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 
-function RequireAuth({ children }) {
-  const { user, loading } = useAuth();
-  if (loading) return <div className="container"><p style={{ padding: '48px 0', color: 'var(--text-mid)' }}>Loading…</p></div>;
-  if (!user) return <Navigate to="/login" replace />;
-  return children;
-}
-
-function RequireAdmin({ children }) {
-  const { user, loading } = useAuth();
-  if (loading) return <div className="container"><p style={{ padding: '48px 0', color: 'var(--text-mid)' }}>Loading…</p></div>;
-  if (!user) return <Navigate to="/login" replace />;
-  if (!user.isAdmin) return <Navigate to="/" replace />;
-  return children;
-}
+import Home from "./pages/Home";
+import Menu from "./pages/Menu";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import OrderConfirmation from "./pages/OrderConfirmation";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Profile from "./pages/Profile";
+import Orders from "./pages/Orders";
+import Premium from "./pages/Premium";
+import Admin from "./pages/Admin";
 
 export default function App() {
   return (
     <>
-      <NavBar />
+      <Navbar />
       <Routes>
-        <Route path="/" element={<MenuPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route
           path="/checkout"
           element={
-            <RequireAuth>
-              <CheckoutPage />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <RequireAuth>
-              <ProfilePage />
-            </RequireAuth>
+            <ProtectedRoute>
+              <Checkout />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/orders"
           element={
-            <RequireAuth>
-              <OrderHistoryPage />
-            </RequireAuth>
+            <ProtectedRoute>
+              <Orders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orders/:id"
+          element={
+            <ProtectedRoute>
+              <OrderConfirmation />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/premium"
+          element={
+            <ProtectedRoute>
+              <Premium />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin"
           element={
-            <RequireAdmin>
-              <AdminPage />
-            </RequireAdmin>
+            <AdminRoute>
+              <Admin />
+            </AdminRoute>
           }
         />
-        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <footer className="footer">UP TOWN · Order food to your hostel · Payments via M-Pesa Daraja</footer>
     </>
   );
 }

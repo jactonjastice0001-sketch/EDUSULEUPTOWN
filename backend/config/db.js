@@ -9,6 +9,7 @@ const FILES = {
   users: path.join(DATA_DIR, 'users.json'),
   orders: path.join(DATA_DIR, 'orders.json'),
   menu: path.join(DATA_DIR, 'menu.json'),
+  premiumPayments: path.join(DATA_DIR, 'premiumPayments.json'),
 };
 
 function ensureStore() {

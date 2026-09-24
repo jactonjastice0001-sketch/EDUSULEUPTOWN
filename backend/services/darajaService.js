@@ -54,7 +54,7 @@ function toMsisdn(phone) {
 // Triggers the STK "enter M-Pesa PIN" prompt on the payer's phone.
 // Returns { ok: true, ... } on success, or { ok: false, reason } when credentials
 // aren't configured yet — so the caller can fail gracefully instead of crashing.
-async function initiateStkPush({ phone, amount, orderId, accountRef = 'UPTOWN' }) {
+async function initiateStkPush({ phone, amount, orderId, accountRef = 'UPTOWN', callbackUrl }) {
   if (credentialsArePlaceholders()) {
     return {
       ok: false,
@@ -78,7 +78,7 @@ async function initiateStkPush({ phone, amount, orderId, accountRef = 'UPTOWN' }
       PartyA: msisdn,
       PartyB: process.env.DARAJA_SHORTCODE,
       PhoneNumber: msisdn,
-      CallBackURL: process.env.DARAJA_CALLBACK_URL,
+      CallBackURL: callbackUrl || process.env.DARAJA_CALLBACK_URL,
       AccountReference: accountRef,
       TransactionDesc: `UP TOWN order ${orderId}`,
     };

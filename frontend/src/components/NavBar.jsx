@@ -33,6 +33,11 @@ export default function NavBar() {
               Past orders
             </NavLink>
           )}
+          {user && (
+            <NavLink to="/premium" className={({ isActive }) => (isActive ? 'active' : '')}>
+              {user.isPremium ? '★ Premium' : 'Go Premium'}
+            </NavLink>
+          )}
           {user?.isAdmin && (
             <NavLink to="/admin" className={({ isActive }) => (isActive ? 'active' : '')}>
               Admin

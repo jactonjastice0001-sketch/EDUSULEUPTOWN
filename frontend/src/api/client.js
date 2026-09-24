@@ -76,6 +76,11 @@ export const api = {
   getOrder: (id) => request(`/orders/${id}`),
   getConfig: () => request('/config', { auth: false }),
 
+  // Premium accounts
+  getPremiumStatus: () => request('/premium/status'),
+  premiumStkPush: (payload) => request('/premium/stkpush', { method: 'POST', body: payload }),
+  premiumPaymentStatus: (paymentId) => request(`/premium/payment-status/${paymentId}`),
+
   // Admin
   listMenuAdmin: () => request('/menu/admin/all'),
   updateMenuItem: (id, payload) => request(`/menu/${id}`, { method: 'PATCH', body: payload }),

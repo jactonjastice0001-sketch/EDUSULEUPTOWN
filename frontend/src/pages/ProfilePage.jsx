@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api/client';
 
@@ -66,6 +67,16 @@ export default function ProfilePage() {
           <p className="profile-readonly__note">
             Your ID number is encrypted at rest and never shown in full — only the last 4 digits are visible here.
           </p>
+          <div className="profile-readonly__premium">
+            {user.isPremium ? (
+              <>
+                <span className="mono" style={{ color: 'var(--mango)', fontWeight: 700 }}>★ Premium</span>
+                <span className="mono" style={{ display: 'block', marginTop: 4 }}>{user.premiumCode}</span>
+              </>
+            ) : (
+              <Link to="/premium" className="btn btn--sm btn--outline">Upgrade to Premium</Link>
+            )}
+          </div>
         </aside>
       </div>
 
@@ -83,6 +94,7 @@ export default function ProfilePage() {
         .profile-readonly dt { color: var(--text-low); font-size: 0.78rem; }
         .profile-readonly dd { margin: 0; font-size: 0.85rem; }
         .profile-readonly__note { font-size: 0.78rem; color: var(--text-low); border-top: 1px solid var(--ink-line); padding-top: var(--space-3); }
+        .profile-readonly__premium { margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--ink-line); }
         @media (max-width: 860px) { .profile-layout { grid-template-columns: 1fr; } }
       `}</style>
     </div>

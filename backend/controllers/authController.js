@@ -14,6 +14,9 @@ function toPublicUser(user) {
     address: user.address,
     idNumberMasked: maskId(decrypt(user.idNumberEncrypted)),
     isAdmin: Boolean(user.isAdmin),
+    isPremium: Boolean(user.isPremium),
+    premiumCode: user.isPremium ? user.premiumCode : null,
+    premiumSince: user.premiumSince || null,
     createdAt: user.createdAt,
   };
 }

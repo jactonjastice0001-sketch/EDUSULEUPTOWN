@@ -8,6 +8,7 @@ import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import AdminPage from './pages/AdminPage';
+import PremiumPage from './pages/PremiumPage';
 import { useAuth } from './context/AuthContext';
 
 function RequireAuth({ children }) {
@@ -55,6 +56,14 @@ export default function App() {
           element={
             <RequireAuth>
               <OrderHistoryPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/premium"
+          element={
+            <RequireAuth>
+              <PremiumPage />
             </RequireAuth>
           }
         />

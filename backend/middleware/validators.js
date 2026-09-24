@@ -53,4 +53,9 @@ const stkRules = [
   handleValidation,
 ];
 
-module.exports = { registerRules, loginRules, orderRules, stkRules, KE_PHONE, KE_ID };
+const premiumStkRules = [
+  body('phone').trim().matches(KE_PHONE).withMessage('Enter a valid M-Pesa phone number.'),
+  handleValidation,
+];
+
+module.exports = { registerRules, loginRules, orderRules, stkRules, premiumStkRules, KE_PHONE, KE_ID };

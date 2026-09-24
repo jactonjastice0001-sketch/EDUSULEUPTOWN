@@ -13,6 +13,7 @@ const authRoutes = require('./routes/authRoutes');
 const menuRoutes = require('./routes/menuRoutes');
 const ordersRoutes = require('./routes/ordersRoutes');
 const configRoutes = require('./routes/configRoutes');
+const premiumRoutes = require('./routes/premiumRoutes');
 const { UPLOAD_ROOT } = require('./middleware/upload');
 
 // Fail fast if critical secrets are missing/placeholder in production.
@@ -63,6 +64,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/orders', ordersRoutes);
 app.use('/api/config', configRoutes);
+app.use('/api/premium', premiumRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -2,7 +2,7 @@ const express = require("express");
 const { body, validationResult } = require("express-validator");
 const rateLimit = require("express-rate-limit");
 
-const db = require("../db");
+const db = require("../config/db");
 const { requireAuth } = require("../middleware/auth");
 const { stkPush, stkQuery } = require("../services/daraja");
 

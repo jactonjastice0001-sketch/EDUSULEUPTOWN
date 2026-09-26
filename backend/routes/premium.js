@@ -3,7 +3,7 @@ const { v4: uuid } = require("uuid");
 const { body, validationResult } = require("express-validator");
 const rateLimit = require("express-rate-limit");
 
-const db = require("../db");
+const db = require("../config/db");
 const { requireAuth } = require("../middleware/auth");
 const { stkPush } = require("../services/daraja");
 const { generatePremiumCode } = require("../utils/premiumCode");

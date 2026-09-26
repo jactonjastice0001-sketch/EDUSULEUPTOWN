@@ -2,7 +2,7 @@ const express = require("express");
 const { v4: uuid } = require("uuid");
 const { body, validationResult } = require("express-validator");
 
-const db = require("../db");
+const db = require("../config/db");
 const { requireAuth } = require("../middleware/auth");
 const { buildClickToChatLink } = require("../services/whatsapp");
 

@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState } from 'react';
 
 const CartContext = createContext(null);
 
@@ -9,7 +9,7 @@ export function CartProvider({ children }) {
     setItems((prev) => {
       const existing = prev[menuItem.id];
       const quantity = (existing?.quantity || 0) + 1;
-      return { ...prev, [menuItem.id]: { id: menuItem.id, name: menuItem.name, price: menuItem.price_kes, quantity } };
+      return { ...prev, [menuItem.id]: { id: menuItem.id, name: menuItem.name, price: menuItem.price, quantity } };
     });
   }
 
@@ -20,7 +20,7 @@ export function CartProvider({ children }) {
         delete next[menuItem.id];
         return next;
       }
-      return { ...prev, [menuItem.id]: { id: menuItem.id, name: menuItem.name, price: menuItem.price_kes, quantity } };
+      return { ...prev, [menuItem.id]: { id: menuItem.id, name: menuItem.name, price: menuItem.price, quantity } };
     });
   }
 
@@ -41,7 +41,9 @@ export function CartProvider({ children }) {
   const count = useMemo(() => list.reduce((sum, i) => sum + i.quantity, 0), [list]);
 
   return (
-    <CartContext.Provider value={{ items, list, total, count, addItem, setQuantity, removeItem, clearCart }}>
+    <CartContext.Provider
+      value={{ items, list, lines: list, total, count, addItem, setQuantity, removeItem, clearCart }}
+    >
       {children}
     </CartContext.Provider>
   );

@@ -12,7 +12,7 @@ function toPublicUser(user) {
     phone: user.phone,
     hostelName: user.hostelName,
     address: user.address,
-    idNumberMasked: maskId(decrypt(user.idNumberEncrypted)),
+    idNumberMasked: user.idNumberEncrypted ? maskId(decrypt(user.idNumberEncrypted)) : null,
     isAdmin: Boolean(user.isAdmin),
     isPremium: Boolean(user.isPremium),
     premiumCode: user.isPremium ? user.premiumCode : null,
@@ -21,10 +21,14 @@ function toPublicUser(user) {
   };
 }
 
+// Accepts whatever reasonable format the person typed (spaces, dashes, +254,
+// 254, or a leading 0) and stores it consistently as 07XXXXXXXX / 01XXXXXXXX
+// when it looks Kenyan; otherwise just strips formatting and keeps it as-is.
 function normalizePhone(phone) {
-  // Store consistently as 07XXXXXXXX / 01XXXXXXXX
-  if (phone.startsWith('+254')) return '0' + phone.slice(4);
-  return phone;
+  const digits = String(phone).replace(/[\s-]/g, '');
+  if (digits.startsWith('+254')) return '0' + digits.slice(4);
+  if (digits.startsWith('254')) return '0' + digits.slice(3);
+  return digits;
 }
 
 async function register(req, res, next) {
@@ -47,9 +51,9 @@ async function register(req, res, next) {
       fullName,
       email,
       phone: normalizedPhone,
-      idNumberEncrypted: encrypt(idNumber), // never store plaintext
-      hostelName,
-      address,
+      idNumberEncrypted: idNumber ? encrypt(idNumber) : null, // optional; never stored in plaintext
+      hostelName: hostelName || '',
+      address: address || '',
       passwordHash,
       createdAt: new Date().toISOString(),
     };

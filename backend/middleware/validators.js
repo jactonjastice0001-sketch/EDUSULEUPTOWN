@@ -8,28 +8,23 @@ function handleValidation(req, res, next) {
   next();
 }
 
-// Kenyan phone: 07XXXXXXXX, 01XXXXXXXX, or +2547XXXXXXXX / +2541XXXXXXXX
-const KE_PHONE = /^(?:\+254|0)(7\d{8}|1\d{8})$/;
-// Kenyan national ID: 6-8 digits
-const KE_ID = /^\d{6,8}$/;
+// Lenient: accepts any phone number with 9–13 digits, with or without spaces,
+// dashes, or a leading +. We don't enforce a strict Kenyan-only format here —
+// normalizePhone() in authController still standardizes it for storage/M-Pesa.
+const PHONE = /^\+?[\d\s-]{9,15}$/;
 
 const registerRules = [
   body('fullName').trim().isLength({ min: 2, max: 80 }).withMessage('Full name must be 2–80 characters.'),
   body('email').trim().isEmail().withMessage('Enter a valid email address.').normalizeEmail(),
-  body('phone').trim().matches(KE_PHONE).withMessage('Enter a valid Kenyan phone number, e.g. 0712345678.'),
-  body('idNumber').trim().matches(KE_ID).withMessage('Enter a valid national ID number (6–8 digits).'),
-  body('hostelName').trim().isLength({ min: 1, max: 80 }).withMessage('Hostel/residence name is required.'),
-  body('address').trim().isLength({ min: 1, max: 160 }).withMessage('Delivery address is required.'),
-  body('password')
-    .isLength({ min: 8 }).withMessage('Password must be at least 8 characters.')
-    .matches(/[A-Z]/).withMessage('Password must contain an uppercase letter.')
-    .matches(/[a-z]/).withMessage('Password must contain a lowercase letter.')
-    .matches(/\d/).withMessage('Password must contain a number.'),
+  body('phone').trim().matches(PHONE).withMessage('Enter a valid phone number.'),
+  body('hostelName').optional({ checkFalsy: true }).trim().isLength({ max: 80 }),
+  body('address').optional({ checkFalsy: true }).trim().isLength({ max: 160 }),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters.'),
   handleValidation,
 ];
 
 const loginRules = [
-  body('phone').trim().matches(KE_PHONE).withMessage('Enter a valid Kenyan phone number.'),
+  body('phone').trim().notEmpty().withMessage('Enter your phone number.'),
   body('password').notEmpty().withMessage('Password is required.'),
   handleValidation,
 ];
@@ -47,15 +42,15 @@ const orderRules = [
 ];
 
 const stkRules = [
-  body('phone').trim().matches(KE_PHONE).withMessage('Enter a valid M-Pesa phone number.'),
+  body('phone').trim().matches(PHONE).withMessage('Enter a valid M-Pesa phone number.'),
   body('amount').isFloat({ min: 1 }).withMessage('Amount must be greater than 0.'),
   body('orderId').notEmpty().withMessage('orderId is required.'),
   handleValidation,
 ];
 
 const premiumStkRules = [
-  body('phone').trim().matches(KE_PHONE).withMessage('Enter a valid M-Pesa phone number.'),
+  body('phone').trim().matches(PHONE).withMessage('Enter a valid M-Pesa phone number.'),
   handleValidation,
 ];
 
-module.exports = { registerRules, loginRules, orderRules, stkRules, premiumStkRules, KE_PHONE, KE_ID };
+module.exports = { registerRules, loginRules, orderRules, stkRules, premiumStkRules, PHONE };

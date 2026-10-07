@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 export default function Home() {
   return (
@@ -11,16 +11,16 @@ export default function Home() {
           M-Pesa, and confirm on WhatsApp — all in one order.
         </p>
         <div className="hero-actions">
-          <Link to="/menu" className="btn btn-primary">
+          <Link to="/menu" className="btn btn--primary">
             See the menu
           </Link>
-          <Link to="/register" className="btn btn-outline">
+          <Link to="/register" className="btn btn--outline">
             Create an account
           </Link>
         </div>
       </section>
 
-      <div className="two-col" style={{ marginTop: "2rem" }}>
+      <div className="two-col" style={{ marginTop: '2rem' }}>
         <div className="ticket">
           <div className="ticket-header">
             <span>How it works</span>
@@ -35,11 +35,10 @@ export default function Home() {
         </div>
 
         <div>
-          <h2 style={{ fontSize: "1.4rem" }}>Built for hostel life</h2>
+          <h2 style={{ fontSize: '1.4rem' }}>Built for hostel life</h2>
           <p className="muted">
             Your profile stores your hostel, room/address and contact details once, so every future order is a
-            couple of taps. Payments run through Safaricom's Daraja API, and your ID number is encrypted at rest —
-            never stored or shown in plain text.
+            couple of taps. Payments run through Safaricom's Daraja API.
           </p>
         </div>
       </div>

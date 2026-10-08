@@ -20,8 +20,12 @@ export function AuthProvider({ children }) {
       .finally(() => setLoading(false));
   }, []);
 
-  async function login(email, password) {
-    const data = await api.login({ email, password });
+  // LoginPage calls login({ phone, password }). Positional (phone, password)
+  // is also accepted so either calling style works.
+  async function login(arg1, arg2) {
+    const credentials =
+      typeof arg1 === 'object' && arg1 !== null ? arg1 : { phone: arg1, password: arg2 };
+    const data = await api.login(credentials);
     localStorage.setItem('uptown_token', data.token);
     setUser(data.user);
     return data.user;
